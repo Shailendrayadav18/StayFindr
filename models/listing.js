@@ -6,12 +6,8 @@ const listingSchema = new Schema({
     title: String,
     description: String,
     image:{
-        type: String,
-        default: "https://unsplash.com/photos/a-living-room-filled-with-furniture-and-a-flat-screen-tv-nmKPgfIUYtM",
-        set: (v)=>
-            v===""
-            ? "https://unsplash.com/photos/a-living-room-filled-with-furniture-and-a-flat-screen-tv-nmKPgfIUYtM" 
-            : v, 
+        URL: String,
+        fileName: String,
     },
     price: Number,
     place: String,
