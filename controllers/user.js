@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const passport = require("passport");
 
 module.exports.renderSignup=(req, res)=>{
     res.render("user/signup.ejs");
@@ -13,12 +14,16 @@ module.exports.registerUser = async(req, res)=>{
             if(err){
                 return next(err);
             }
-            req.flash("success", "Welcome too WanderLust");
-            res.redirect("/listing");
+            res.json({
+                success:true,
+                message: "Welcome too WanderLust",
+            });
         });
     } catch (e) {
-        req.flash("error", e.message);
-        res.redirect("/signup");
+        res.json({
+            error:true,
+            message:e.message,
+        })
     }
 }
 
@@ -26,11 +31,50 @@ module.exports.renderLogin = (req, res)=>{
     res.render("user/login.ejs");
 }
 
-module.exports.userLogin=(req, res)=>{
-    const redirectUrl = res.locals.returnTo || "/listing";
-    delete req.session.returnTo;
-    req.flash("success", "Welcome Back to WanderLust!");
-    res.redirect(redirectUrl);
+module.exports.userVerification=(req, res) => {
+
+    if (!req.isAuthenticated()) {
+        return res.json({
+            authenticated: false
+        });
+    }
+
+    res.json({
+        authenticated: true,
+        user: {
+            id: req.user._id,
+            username: req.user.username
+        }
+    });
+
+}
+
+module.exports.userAuthentication=(req, res, next) => {
+
+  passport.authenticate("local", (err, user, info) => {
+
+    if (err) return next(err);
+
+    if (!user) {
+      return res.status(401).json({
+        error: true,
+        message: info.message
+      });
+    }
+
+    req.logIn(user, (err) => {
+
+      if (err) return next(err);
+
+      res.json({
+        success: true,
+        message: "Login successful",
+        user: user
+      });
+
+    });
+
+  })(req, res, next);
 }
 
 module.exports.userLogout = (req, res, next)=>{

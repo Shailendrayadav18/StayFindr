@@ -1,0 +1,45 @@
+body{
+  background-color: #f8f9fa !important;
+}
+
+.container-fluid {
+  padding-left: 7rem !important;
+  padding-right: 7rem !important;
+}
+
+.listing-card{
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+  transition: transform 0.2s ease;
+}
+
+.listing-card:hover{
+  transform: translateY(-10px);
+}
+
+.card img{
+  background-color: #f1f3f5 !important;
+}
+
+.owner-profile{
+  display: flex;
+  gap: 10px;
+}
+
+.avatar{
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #4f46e5;
+  color: white;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.owner-name{
+  font-size: 18px;
+  font-weight: 600;
+}

@@ -14,6 +14,7 @@ const flash = require("connect-flash");
 const passport= require("passport");
 const LocalStrategy = require("passport-local");
 const User=require("./models/user.js");
+const cors = require("cors");
 
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -26,6 +27,13 @@ app.use(express.urlencoded({extended:true}));
 app.use(methodoverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials:true
+}));
+
+app.use(express.json());
 
 const MONGO_ID = "mongodb://127.0.0.1:27017/wanderlust";
 
@@ -73,7 +81,7 @@ app.use((req, res, next)=>{
 });
 
 app.use("/listing", listingRouter);
-app.use("/listing/:id/reviews", reviewRouter);
+app.use("/listing/:id/reviews", reviewRouter);   
 app.use("/", userRouter);
 
 app.use((req, res, next) => {
@@ -82,7 +90,10 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next)=>{
     let {statusCode=500, message="Some error occured"} = err;
-    res.status(statusCode).render("listing/error.ejs", {message});
+    res.status(statusCode).json({
+        error:true,
+        message:message,
+    });
 });
 
 app.listen(8080, ()=>{

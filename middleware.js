@@ -5,9 +5,10 @@ const Review=require("./models/review.js");
 
 module.exports.isLoggedIn = (req, res, next)=>{
     if(!req.isAuthenticated()){
-        req.session.returnTo = req.originalUrl;
-        req.flash("error", "Access Denied, Login Required!");
-        return res.redirect("/login");
+        return res.status(401).json({
+            error:true,
+            message:"Access Denied, Login required!",
+        });
     }
     next();
 };

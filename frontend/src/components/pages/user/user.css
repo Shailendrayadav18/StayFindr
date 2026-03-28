@@ -1,0 +1,13 @@
+body{
+  background-color: #f8f9fa !important;
+}
+
+.sign-up {
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    height: 30rem;
+}
+
+.rowPosition{
+    padding-top: 5rem !important;
+}

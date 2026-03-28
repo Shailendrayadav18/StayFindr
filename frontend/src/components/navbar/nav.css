@@ -1,0 +1,27 @@
+.navElement{
+    font-weight: 600;
+}
+.navElement:hover{
+    font-weight: bold;
+}
+
+.logoStyle{
+  font-weight: 600;
+  color: red;
+}
+
+.logoStyle:hover{
+  color: crimson;
+}
+
+.avatar{
+  width:32px;
+  height:32px;
+  border-radius:50%;
+  background:#333;
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}

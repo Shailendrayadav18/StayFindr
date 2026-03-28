@@ -10,8 +10,10 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.2",
     "cloudinary": "^1.41.3",
     "connect-flash": "^0.1.1",
+    "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "ejs": "^4.0.1",
     "ejs-mate": "^4.0.0",
