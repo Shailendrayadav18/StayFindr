@@ -1,4 +1,4 @@
-import AuthForm from "./Authform";
+import AuthForm from "./AuthForm";
 import "./user.css";
 
 export default function Login() {
