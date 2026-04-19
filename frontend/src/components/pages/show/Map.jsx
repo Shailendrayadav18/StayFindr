@@ -10,7 +10,7 @@ export default function Map({ coordinates, title }) {
   const [activeMarker, setActiveMarker] = useState(null);
 
   const { isLoaded, loadError } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyA1zsvibMflElYIlzBj8nifBSk_nOp1w9c",
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
   });
 
   // ✅ Strict coordinate validation

@@ -29,13 +29,13 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: process.env.FRONTEND_URL || "http://localhost:5173",
   credentials:true
 }));
 
 app.use(express.json());
 
-const MONGO_ID = "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/wanderlust";
 
 main().then(()=>{
     console.log("DB is connected");
@@ -44,11 +44,13 @@ main().then(()=>{
 });
 
 async function main() {
-    await mongoose.connect(MONGO_ID);
+    await mongoose.connect(dbUrl);
 }; 
 
+const PORT = process.env.PORT || 8080;
+
 const sessionOptions = {
-    secret: "mysecretsessioncode",
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -98,6 +100,6 @@ app.use((err, req, res, next)=>{
     });
 });
 
-app.listen(8080, ()=>{
-    console.log("server is listening on port 8080"); 
+app.listen(PORT, ()=>{
+    console.log(`server is listening on port ${PORT}`); 
 });
