@@ -1,15 +1,14 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import "./CreateListing.css";
 
-export default function NewListing() {
+export default function NewListing({ onSuccess, onCancel }) {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
 
     const [loading, setLoading] = useState(false);
     const [previewUrl, setPreviewUrl] = useState(null);
-    const navigate = useNavigate();
 
     const handleImagePreview = (event) => {
         const file = event.target.files[0];
@@ -56,7 +55,7 @@ export default function NewListing() {
             const imageData = await uploadImageToCloudinary(data.image[0]);
             const response = await fetch("http://localhost:8080/listing", {
                 method: "POST",
-                credentials:"include",
+                credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
@@ -74,7 +73,7 @@ export default function NewListing() {
             }
 
             toast.success(result.message);
-            navigate("/");
+            onSuccess();
         } catch (error) {
             console.error("Error uploading image:", error);
             toast.error(error.message);
@@ -85,9 +84,14 @@ export default function NewListing() {
 
     return (
         <>
-            <div className="container mt-2">
+            <div className="container box-layout">
                 <div className="row">
-                    <div className="col-8 offset-2">
+                    <div className="col-12 order-2 order-md-1 mb-2 d-none d-md-block p-0">
+                        <button className="soft-back-btn" onClick={onCancel}>
+                            ←
+                        </button>
+                    </div>
+                    <div className="col-12 col-md-10 form-wrapper order-1 order-md-2">
                         <h2>Add New Listing</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="mb-3">
@@ -168,7 +172,7 @@ export default function NewListing() {
                                 </div>
                             </div>
 
-                            <div className="mb-3">
+                            <div className="mb-4">
                                 <label htmlFor="place" className="form-label">Place</label>
 
                                 <input
@@ -181,7 +185,26 @@ export default function NewListing() {
                                 )}
                             </div>
 
-                           {loading? <b>Creating...</b>: <button className="btn btn-dark">Add Listing</button>}
+                            <div className="d-flex d-md-none gap-2 mt-3">
+                                <button
+                                    type="button"
+                                    className="soft-back-btn flex-fill"
+                                    onClick={onCancel}
+                                >
+                                    ← Back
+                                </button>
+
+                                <button
+                                    type="submit"
+                                    className="btn btn-dark flex-fill"
+                                >
+                                    {loading ? "Creating..." : "Add"}
+                                </button>
+                            </div>
+
+                            <div className="d-flex d-none d-md-block mt-3">
+                                {loading ? <b>Creating...</b> : <button className="btn btn-dark" type="submit">Add Listing</button>}
+                            </div>
 
                         </form>
                     </div>

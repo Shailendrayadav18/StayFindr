@@ -1,0 +1,18 @@
+.auth-box {
+    margin: auto;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+.auth-link {
+    color: #ff385c;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.inline-css {
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+    border-left: 1px solid #ddd !important;
+    border-right: 1px solid #ddd !important;
+}

@@ -4,34 +4,18 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import View from "./components/pages/show/view";
 import NewListing from "./components/pages/create/CreateListing";
-import Signup from "./components/pages/user/signup";
 import AuthLayout from "./components/layouts/AuthLayout";
 import MainLayout from "./components/layouts/MainLayout";
 import Login from "./components/pages/user/login";
-import { useState, useEffect } from "react";
+import ProtectedRoute from "./components/layouts/ProtectedRoute";
+import AccountLayout from "./components/layouts/AccountLayout";
+import MyProfile from "./components/pages/user/Profile";
+import MyListings from "./components/pages/user/Listings";
+import EditListing from "./components/pages/edit/EditListings";
+import UserProfile from "./components/pages/user/UserProfile";
 
 function App() {
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-
-    const checkAuth = async () => {
-
-      const res = await fetch("http://localhost:8080/verifyUser", {
-        credentials: "include"
-      });
-
-      const data = await res.json();
-
-      if (data.authenticated) {
-        setUser(data.user);
-      }
-
-    };
-
-    checkAuth();
-
-  }, []);
   return (
     <>
       <ToastContainer
@@ -40,14 +24,24 @@ function App() {
       />
       <Routes>
         <Route element={<AuthLayout />}>
-          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
         </Route>
 
-        <Route element={<MainLayout user={user} />} >
+        <Route element={<MainLayout />} >
           <Route path="/" element={<Show />} />
           <Route path="/listing/:id" element={<View />} />
-          <Route path="/listing/new" element={<NewListing />} />
+        </Route>
+
+        <Route element={<ProtectedRoute />}>
+          <Route element={<MainLayout />}>
+            <Route path="/profile" element={<UserProfile />} />
+
+            {/* Account routes */}
+            <Route path="/account" element={<AccountLayout />}>
+            <Route path="profile" element={<MyProfile />} />
+              <Route path="listings" element={<MyListings />} />
+            </Route>
+          </Route>
         </Route>
       </Routes>
     </>

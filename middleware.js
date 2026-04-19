@@ -5,11 +5,13 @@ const Review=require("./models/review.js");
 
 module.exports.isLoggedIn = (req, res, next)=>{
     if(!req.isAuthenticated()){
+        console.log("access denied");
         return res.status(401).json({
             error:true,
             message:"Access Denied, Login required!",
         });
     }
+    console.log("BODY:", req.body);
     next();
 };
 
@@ -17,8 +19,10 @@ module.exports.isOwner = async(req, res, next)=>{
     let {id} =req.params;
     let listing = await Listing.findById(id);
     if(!listing.owner._id.equals(res.locals.currUser._id)){
-        req.flash("error", "You are not owner of this listing");
-        return res.redirect(`/listing/${id}`);
+        return res.status(403).json({
+            success: false,
+            message: "Unauthorised Access!"
+        });
     }
     next();
 }

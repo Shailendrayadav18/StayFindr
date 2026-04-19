@@ -16,7 +16,8 @@ module.exports.registerUser = async(req, res)=>{
             }
             res.json({
                 success:true,
-                message: "Welcome too WanderLust",
+                message: "Signup successful!",
+                user: registeredUser
             });
         });
     } catch (e) {
@@ -63,15 +64,17 @@ module.exports.userAuthentication=(req, res, next) => {
     }
 
     req.logIn(user, (err) => {
-
       if (err) return next(err);
 
-      res.json({
+      req.session.save((err)=>{
+        if (err) return next(err);
+
+        res.json({
         success: true,
-        message: "Login successful",
+        message: "Login successful!",
         user: user
       });
-
+      });
     });
 
   })(req, res, next);
@@ -82,7 +85,9 @@ module.exports.userLogout = (req, res, next)=>{
         if(err){
             return next(err);
         }
-        req.flash("success","You are logged out!");
-        res.redirect("/listing");
+        res.json({
+            logout: true,
+            message: "You are logged out!" 
+        });
     });
 }

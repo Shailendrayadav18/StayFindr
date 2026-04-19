@@ -1,0 +1,69 @@
+body{
+  background-color: white !important;
+}
+
+.sidebar {
+  background-color: #fff;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.sidebar-link .icon {
+  font-size: 16px;
+}
+
+/* Hover effect */
+.sidebar-link:hover {
+  background-color: #f7f7f7;
+}
+
+/* Active state (Airbnb style) */
+.sidebar-link.active {
+  background-color: #ffeceb;
+  color: #ff385c;
+}
+
+/* Optional: make active icon red too */
+.sidebar-link.active .icon {
+  color: #ff385c;
+}
+
+@media (min-width: 768px) {
+  .min-vh-md-100 {
+    min-height: 100vh;
+  }
+}
+
+/* Mobile: horizontal scroll nav */
+@media (max-width: 768px) {
+  .sidebar {
+    border-right: none !important;
+    border-bottom: 1px solid #eee;
+  }
+
+  .sidebar .d-flex {
+    flex-direction: row;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .sidebar-link {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    font-size: 14px;
+  }
+
+  .sidebar-link .icon {
+    font-size: 18px;
+  }
+}

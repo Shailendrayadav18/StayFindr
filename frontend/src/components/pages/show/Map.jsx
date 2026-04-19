@@ -1,27 +1,68 @@
-import { GoogleMap, InfoWindow, Marker, useJsApiLoader } from "@react-google-maps/api";
+import {
+  GoogleMap,
+  InfoWindow,
+  Marker,
+  useJsApiLoader,
+} from "@react-google-maps/api";
+import { useState, useMemo } from "react";
 
 export default function Map({ coordinates, title }) {
+  const [activeMarker, setActiveMarker] = useState(null);
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: "AIzaSyA1zsvibMflElYIlzBj8nifBSk_nOp1w9c"
+  const { isLoaded, loadError } = useJsApiLoader({
+    googleMapsApiKey: "AIzaSyA1zsvibMflElYIlzBj8nifBSk_nOp1w9c",
   });
 
-  if (!isLoaded || !coordinates) return <p>Loading map...</p>;
+  // ✅ Strict coordinate validation
+  const center = useMemo(() => {
+    if (
+      !coordinates ||
+      coordinates.length !== 2 ||
+      isNaN(coordinates[0]) ||
+      isNaN(coordinates[1])
+    ) {
+      return null;
+    }
+    return {
+      lat: Number(coordinates[1]),
+      lng: Number(coordinates[0]),
+    };
+  }, [coordinates]);
 
-  const center = {
-    lat: coordinates[1], // latitude
-    lng: coordinates[0], // longitude
-  };
+  // ❌ API error
+  if (loadError) {
+    return <p style={{ color: "red" }}>⚠️ Map failed to load</p>;
+  }
 
-  const containerStyle = {
-    width: "100%",
-    height: "500px",
-    borderRadius: "10px"
-  };
+  // ⏳ Loading or invalid data
+  if (!isLoaded || !center) {
+    return <p>📍 Location not available</p>;
+  }
 
   return (
-    <GoogleMap mapContainerStyle={containerStyle} center={center} zoom={12}>
-      <Marker position={center} ><InfoWindow position={center} ><div className="text-dark fw-bold">{title}</div></InfoWindow></Marker>
-    </GoogleMap>
+    <div style={{ width: "100%", height: "500px" }}>
+      <GoogleMap
+        key="stable-map"
+        mapContainerStyle={{ width: "100%", height: "100%" }}
+        center={center}
+        zoom={12}
+        onClick={() => setActiveMarker(null)}
+      >
+        {/* ✅ Marker */}
+        <Marker
+          position={center}
+          onClick={() => setActiveMarker(center)}
+        >
+          {/* ✅ InfoWindow INSIDE Marker (SAFE METHOD) */}
+          {activeMarker && (
+            <InfoWindow onCloseClick={() => setActiveMarker(null)}>
+              <div style={{ fontWeight: "bold" }}>
+                {title || "Property Location"}
+              </div>
+            </InfoWindow>
+          )}
+        </Marker>
+      </GoogleMap>
+    </div>
   );
 }

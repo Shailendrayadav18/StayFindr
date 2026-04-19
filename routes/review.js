@@ -10,6 +10,11 @@ router.post("/",
     wrapAsync(controllerReview.createReview)
 );
 
+router.get("/user",
+    isLoggedIn,
+    wrapAsync(controllerReview.userReviews)
+);
+
 router.delete("/:reviewId", 
     isLoggedIn, 
     isReviewAuthor, 

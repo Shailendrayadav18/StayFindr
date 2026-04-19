@@ -1,0 +1,60 @@
+.profile-card {
+    max-width: 350px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.avatar-lg {
+    width: 100px;
+    height: 100px;
+    margin: auto;
+    border-radius: 50%;
+    background: black;
+    color: white;
+    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+}
+
+.review-card {
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    background: white;
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+
+  .profile-card {
+    max-width: 70%;
+    padding: 20px !important;
+    border-radius: 12px;
+  }
+
+  .avatar-lg {
+    width: 70px;
+    height: 70px;
+    font-size: 24px;
+  }
+
+  .review-card {
+    padding: 14px !important;
+  }
+
+  .review-card strong {
+    font-size: 14px;
+  }
+
+  .review-card p {
+    font-size: 13px;
+  }
+
+  .btn-danger {
+    width: 100%;
+  }
+
+}

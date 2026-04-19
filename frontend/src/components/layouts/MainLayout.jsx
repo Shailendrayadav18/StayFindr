@@ -1,10 +1,10 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../navbar/nav";
 
-export default function MainLayout({user}) {
+export default function MainLayout() {
   return (
     <>
-      <Navbar user={user} />
+      <Navbar />
       <Outlet />
     </>
   );

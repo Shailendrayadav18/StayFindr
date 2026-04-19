@@ -55,6 +55,7 @@ const sessionOptions = {
         expires: Date.now() + 7*24*60*60*1000,
         maxAge: 7*24*60*60*1000,
         httpOnly: true,
+        sameSite: "lax",
     },
 };
 
@@ -83,6 +84,7 @@ app.use((req, res, next)=>{
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter);   
 app.use("/", userRouter);
+app.use("/reviews", reviewRouter);
 
 app.use((req, res, next) => {
     next(new ExpressError(404, "Page not found"));
