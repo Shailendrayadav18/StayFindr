@@ -24,8 +24,8 @@ export default function AuthForm({
         try {
             const endpoint =
                 authMode === "login"
-                    ? "http://localhost:8080/login"
-                    : "http://localhost:8080/signup";
+                    ? `${import.meta.env.VITE_API_URL}/login`
+                    : `${import.meta.env.VITE_API_URL}/signup`;
 
             const res = await fetch(endpoint, {
                 method: "POST",

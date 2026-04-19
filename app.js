@@ -29,7 +29,10 @@ app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: [
+    "http://localhost:5173",
+    "https://your-frontend.vercel.app"
+  ],
   credentials:true
 }));
 
@@ -49,6 +52,8 @@ async function main() {
 
 const PORT = process.env.PORT || 8080;
 
+app.set("trust proxy", 1);
+
 const sessionOptions = {
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -57,7 +62,8 @@ const sessionOptions = {
         expires: Date.now() + 7*24*60*60*1000,
         maxAge: 7*24*60*60*1000,
         httpOnly: true,
-        sameSite: "lax",
+        secure: true,
+        sameSite: "none",
     },
 };
 

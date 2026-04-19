@@ -24,7 +24,7 @@ export default function View() {
         e.preventDefault();
 
         try {
-            const res = await fetch(`http://localhost:8080/listing/${listing._id}/reviews`, {
+            const res = await fetch(`${import.meta.env.VITE_API_URL}/listing/${listing._id}/reviews`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -116,7 +116,7 @@ export default function View() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/listing/${id}`, {
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/listing/${id}`, {
                     credentials: "include",
                 });
 

@@ -9,7 +9,7 @@ export default function UserProfile() {
     useEffect(() => {
         const fetchUserReviews = async () => {
             try {
-                const res = await fetch("http://localhost:8080/reviews/user", {
+                const res = await fetch(`${import.meta.env.VITE_API_URL}/reviews/user`, {
                     credentials: "include"
                 });
                 const data = await res.json();
@@ -25,7 +25,7 @@ export default function UserProfile() {
     const handleDelete = async (listingId, reviewId) => {
         try {
             const res = await fetch(
-                `http://localhost:8080/listing/${listingId}/reviews/${reviewId}`,
+                `${import.meta.env.VITE_API_URL}/listing/${listingId}/reviews/${reviewId}`,
                 {
                     method: "DELETE",
                     credentials: "include"
