@@ -7,7 +7,7 @@ import Map from "./Map";
 import "./review.css";
 import { AuthContext } from "../../../context/AuthContext";
 import { toast } from "react-toastify";
-import AuthForm from "../user/Authform";
+import AuthForm from "../user/AuthForm";
 
 export default function View() {
     const { id } = useParams();
