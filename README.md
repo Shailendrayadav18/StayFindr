@@ -105,7 +105,7 @@ StayFindr/
 │ │ ├── AccountLayout.css                                                                                                         
 │ │ ├── AccountLayout.jsx                                                                                                                                       
 │ │ ├── AuthLayout.jsx                                                                                                                               
-│ │ ├── MainLayout.jsx
+│ │ ├── MainLayout.jsx                                                                                                               
 │ │ └── ProtectedRoute.jsx                                                                                                                                  
 │ │                                                                                                                     
 │ ├── navbar/                                                                                                                                            
