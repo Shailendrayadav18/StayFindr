@@ -80,24 +80,24 @@ The goal of this project is to demonstrate **full-stack development skills**, in
 ## 📂 Project Structure
 
 StayFindr/
-├── controller/
-│ ├── listing.js
-│ ├── review.js
-│ └── user.js
+├── controller/                                                                                         
+│ ├── listing.js                                                                              
+│ ├── review.js                                                                            
+│ └── user.js                                                                                                           
 
-├── models/
-│ ├── listing.js
-│ ├── review.js
-│ └── user.js
+├── models/                                                                       
+│ ├── listing.js                                                                                                        
+│ ├── review.js                                                                                                                       
+│ └── user.js                                                                                                              
 
-├── route/
-│ ├── listing.js
-│ ├── review.js
-│ └── user.js
+├── route/                                                                                         
+│ ├── listing.js                                                                                                                
+│ ├── review.js                                                                                                                         
+│ └── user.js                                                                                                              
 
-├── utils/
-│ ├── wrapAsync.js
-│ └── ExpressError.js
+├── utils/                                                                                               
+│ ├── wrapAsync.js                                                                                                  
+│ └── ExpressError.js                                                                                           
 
 ├── frontend/
 │ └── src/
@@ -147,14 +147,6 @@ cd StayFindr
 ```bash
 npm install
 ```
-Create .env file:
-
-MONGO_URI=your_mongodb_atlas_url
-SESSION_SECRET=your_secret
-CLOUDINARY_CLOUD_NAME=xxx
-CLOUDINARY_KEY=xxx
-CLOUDINARY_SECRET=xxx
-FRONTEND_URL=your_localhost_url
 
 Run backend:
 
@@ -168,10 +160,6 @@ npm start
 cd frontend
 npm install
 ```
-Create .env:
-
-VITE_API_URL=your_ur;
-VITE_GOOGLE_MAPS_API_KEY=your_google_maps_key
 
 🔮 Future Improvements
 
