@@ -79,7 +79,7 @@ The goal of this project is to demonstrate **full-stack development skills**, in
 
 ## 📂 Project Structure
 
-StayFindr/
+StayFindr/                                                                                                            
 ├── controller/                                                                                         
 │ ├── listing.js                                                                              
 │ ├── review.js                                                                            
@@ -96,41 +96,40 @@ StayFindr/
 │ └── user.js                                                                                                              
 
 ├── utils/                                                                                               
-│ ├── wrapAsync.js                                                                                                  
-│ └── ExpressError.js                                                                                           
-
-├── frontend/
-│ └── src/
-│ ├── component/
-│ ├── layouts/
-│ │ ├── AccountLayout.css
-│ │ ├── AccountLayout.jsx
-│ │ ├── AuthLayout.jsx
+│ ├── wrapAsync.js                                                                                                                                      
+│ └── ExpressError.js                                                                                                                                                                                                             
+├── frontend/                                                                                                                              
+│ └── src/                                                                                                                                  
+│ ├── component/                                                                                                                                 
+│ ├── layouts/                                                                                                               
+│ │ ├── AccountLayout.css                                                                                                         
+│ │ ├── AccountLayout.jsx                                                                                                                                       
+│ │ ├── AuthLayout.jsx                                                                                                                               
 │ │ ├── MainLayout.jsx
-│ │ └── ProtectedRoute.jsx
-│ │
-│ ├── navbar/
-│ │ ├── logo.jsx
-│ │ ├── LogoName.jsx
-│ │ ├── nav.css
-│ │ ├── nav.jsx
-│ │ └── NavElement.jsx
-│ │
-│ ├── pages/
-│ │ ├── create/
-│ │ ├── edit/
-│ │ ├── show/
-│ │ └── user/
-│ │
-│ └── context/
-│ └── Authcontext.jsx
-
-├── app.js
-├── cloudConfig.js
-├── middleware.js
-├── schema.js
-└── README.md
-
+│ │ └── ProtectedRoute.jsx                                                                                                                                  
+│ │                                                                                                                     
+│ ├── navbar/                                                                                                                                            
+│ │ ├── logo.jsx                                                                                             
+│ │ ├── LogoName.jsx                                                                                       
+│ │ ├── nav.css                                                                                                                
+│ │ ├── nav.jsx                                                                                                                         
+│ │ └── NavElement.jsx                                                                                                                     
+│ │                                                                                                                      
+│ ├── pages/                                                                                                                          
+│ │ ├── create/                                                                                                          
+│ │ ├── edit/                                                                                                  
+│ │ ├── show/                                                                                                            
+│ │ └── user/                                                                                                     
+│ │                                                                                                                
+│ └── context/                                                                                                                     
+│ └── Authcontext.jsx                                                                                                                    
+                                                                                                                                             
+├── app.js                                                                                                                    
+├── cloudConfig.js                                                                                                       
+├── middleware.js                                                                                                                      
+├── schema.js                                                                                                                                   
+└── README.md                                                                                                                                      
+ 
 
 ---
 
