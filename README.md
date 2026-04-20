@@ -6,7 +6,7 @@ StayFindr is a full-stack property listing and booking platform that allows user
 
 ## 🚀 Live Demo
 
-🌐 Frontend: https://stay-findr.vercel.app  
+🌐 Frontend: https://stay-findr.vercel.app
 🔗 Backend API: https://stayfindr-backend.onrender.com  
 
 ---
