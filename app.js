@@ -51,7 +51,12 @@ async function main() {
     await mongoose.connect(dbUrl);
 }; 
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT;
+
+
+if (!PORT) {
+  throw new Error("PORT is not defined");
+}
 
 app.set("trust proxy", 1);
 
