@@ -11,6 +11,7 @@ const app = express();
 
 // ✅ HEALTH ROUTES (TOP - VERY IMPORTANT)
 app.get("/", (req, res) => {
+  console.log("Health check hit");
   res.status(200).send("OK");
 });
 
@@ -62,7 +63,7 @@ app.use((err, req, res, next) => {
 // ---------------- SERVER START ----------------
 const PORT = process.env.PORT || 8080;
 
-app.listen(PORT, "0.0.0.0", () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
