@@ -11,6 +11,9 @@ const app = express();
 app.get("/", (req, res) => {
   res.status(200).send("ok");
 });
+app.get("/health", (req, res) => {
+  res.status(200).send("healthy");
+});
 const mongoose = require("mongoose");
 const path = require("path");
 const methodoverride = require("method-override");
