@@ -61,7 +61,7 @@ app.use((err, req, res, next) => {
 
 // ---------------- SERVER START ----------------
 console.log("PORT VALUE:", process.env.PORT);
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 3000;
 
 if (!PORT) {
   console.error("PORT not provided by Railway");
