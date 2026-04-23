@@ -2,6 +2,10 @@ if(process.env.NODE_ENV != "production"){
     require("dotenv").config();
 }
 
+console.log("App starting...");
+console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
