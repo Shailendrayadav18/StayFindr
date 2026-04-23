@@ -70,3 +70,7 @@ app.listen(PORT, "0.0.0.0", () => {
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("DB connected"))
   .catch(err => console.log("DB error:", err));
+
+setInterval(() => {
+  console.log("Keep alive ping");
+}, 10000);
