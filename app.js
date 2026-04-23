@@ -73,16 +73,16 @@ const sessionOptions = {
     },
 };
 
-app.use(session(sessionOptions));
-app.use(flash());
+//app.use(session(sessionOptions));
+//app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.returnTo = req.session.returnTo;
     next();
 });
 
-app.use(passport.initialize());
-app.use(passport.session());
+//app.use(passport.initialize());
+//app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
