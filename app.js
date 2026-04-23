@@ -51,7 +51,7 @@ const userRouter = require("./routes/user.js");
 
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter);
-app.use("/", userRouter);
+app.use("/user", userRouter);
 app.use("/reviews", reviewRouter);
 
 // ---------------- ERROR HANDLER ----------------
@@ -68,6 +68,7 @@ app.listen(PORT, () => {
 });
 
 // ---------------- DB CONNECT (AFTER SERVER) ----------------
+console.log("MONGO_URL:", process.env.MONGO_URL);
 mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("DB connected"))
   .catch(err => console.log("DB error:", err));
