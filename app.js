@@ -8,6 +8,9 @@ console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
 
 const express = require("express");
 const app = express();
+app.get("/", (req, res) => {
+  res.status(200).send("ok");
+});
 const mongoose = require("mongoose");
 const path = require("path");
 const methodoverride = require("method-override");
@@ -93,10 +96,6 @@ app.use((req, res, next)=>{
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
     next();
-});
-
-app.get("/", (req, res) => {
-  res.send("API is running...");
 });
 
 app.use("/listing", listingRouter);
