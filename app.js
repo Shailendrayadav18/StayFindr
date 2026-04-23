@@ -39,7 +39,7 @@ app.use(cors({
 
 app.use(express.json());
 
-const dbUrl = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/wanderlust";
+const dbUrl = process.env.MONGO_URL || "mongodb://127.0.0.1:27017/wanderlust";
 
 main().then(()=>{
     console.log("DB is connected");
