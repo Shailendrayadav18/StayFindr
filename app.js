@@ -9,21 +9,6 @@ console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
 const express = require("express");
 const app = express();
 
-// ✅ HEALTH ROUTES (TOP - VERY IMPORTANT)
-app.get("/", (req, res) => {
-  res.status(200).send("OK");
-});
-
-app.get("/health", (req, res) => {
-  res.status(200).send("healthy");
-});
-
-// ✅ LOG REQUESTS
-app.use((req, res, next) => {
-  console.log("Incoming:", req.method, req.url);
-  next();
-});
-
 // ---------------- IMPORTS ----------------
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -43,6 +28,21 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.get("/", (req, res) => {
+    console.log("Health check hit");
+  res.status(200).send("OK");
+});
+
+app.get("/health", (req, res) => {
+  res.status(200).send("healthy");
+});
+
+// ✅ LOG REQUESTS
+app.use((req, res, next) => {
+  console.log("Incoming:", req.method, req.url);
+  next();
+});
+
 // ---------------- ROUTES ----------------
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
@@ -50,7 +50,7 @@ const userRouter = require("./routes/user.js");
 
 app.use("/listing", listingRouter);
 app.use("/listing/:id/reviews", reviewRouter);
-app.use("/", userRouter);
+app.use("/user", userRouter);
 app.use("/reviews", reviewRouter);
 
 // ---------------- ERROR HANDLER ----------------
