@@ -66,8 +66,11 @@ const PORT = process.env.PORT;
 if (!PORT) {
   console.error("PORT not provided by Railway");
 }
-
-app.listen(PORT, "0.0.0.0", () => {
+require("http")
+  .createServer((req, res) => {
+    res.end("RAW SERVER OK");
+  })
+   .listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on port ${PORT}`);
 });
 
