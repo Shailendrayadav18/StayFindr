@@ -67,6 +67,6 @@ app.listen(PORT, "0.0.0.0", () => {
 });
 
 // ---------------- DB CONNECT (AFTER SERVER) ----------------
-mongoose.connect(process.env.MONGO_URI)
+mongoose.connect(process.env.MONGO_URL)
   .then(() => console.log("DB connected"))
   .catch(err => console.log("DB error:", err));
