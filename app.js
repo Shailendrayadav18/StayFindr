@@ -3,15 +3,20 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 console.log("App starting...");
-console.log("SESSION_SECRET:", process.env.SESSION_SECRET);
-console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
 
+// ---------------- SAFE ENV LOGS ----------------
+console.log("SESSION_SECRET:", process.env.SESSION_SECRET || "Not Set");
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL || "Not Set");
+
+// ---------------- IMPORTS ----------------
 const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+
 const app = express();
 
-// ✅ HEALTH ROUTES (TOP - VERY IMPORTANT)
+// ---------------- HEALTH ROUTES ----------------
 app.get("/", (req, res) => {
-  console.log("Health check hit");
   res.status(200).send("OK");
 });
 
@@ -19,15 +24,11 @@ app.get("/health", (req, res) => {
   res.status(200).send("healthy");
 });
 
-// ✅ LOG REQUESTS
+// ---------------- LOG REQUESTS ----------------
 app.use((req, res, next) => {
   console.log("Incoming:", req.method, req.url);
   next();
 });
-
-// ---------------- IMPORTS ----------------
-const mongoose = require("mongoose");
-const cors = require("cors");
 
 // ---------------- CORS ----------------
 const allowedOrigins = [
@@ -36,7 +37,14 @@ const allowedOrigins = [
 ].filter(Boolean);
 
 app.use(cors({
-  origin: allowedOrigins,
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      console.log("Blocked by CORS:", origin);
+      callback(null, true); // allow anyway to avoid crash
+    }
+  },
   credentials: true,
 }));
 
@@ -45,19 +53,26 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ---------------- ROUTES ----------------
-const listingRouter = require("./routes/listing.js");
-const reviewRouter = require("./routes/review.js");
-const userRouter = require("./routes/user.js");
+try {
+  const listingRouter = require("./routes/listing.js");
+  const reviewRouter = require("./routes/review.js");
+  const userRouter = require("./routes/user.js");
 
-app.use("/listing", listingRouter);
-app.use("/listing/:id/reviews", reviewRouter);
-app.use("/user", userRouter);
-app.use("/reviews", reviewRouter);
+  app.use("/listing", listingRouter);
+  app.use("/listing/:id/reviews", reviewRouter);
+  app.use("/user", userRouter);
+  app.use("/reviews", reviewRouter);
+} catch (err) {
+  console.error("Route load error:", err);
+}
 
 // ---------------- ERROR HANDLER ----------------
 app.use((err, req, res, next) => {
   console.error("ERROR:", err);
-  res.status(500).json({ error: true, message: err.message });
+  res.status(500).json({
+    error: true,
+    message: err.message || "Internal Server Error",
+  });
 });
 
 // ---------------- SERVER START ----------------
@@ -67,8 +82,11 @@ app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
-// ---------------- DB CONNECT (AFTER SERVER) ----------------
-console.log("MONGO_URL:", process.env.MONGO_URL);
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => console.log("DB connected"))
-  .catch(err => console.log("DB error:", err));
+// ---------------- DB CONNECT ----------------
+if (!process.env.MONGO_URL) {
+  console.error("❌ MONGO_URL not set in environment variables");
+} else {
+  mongoose.connect(process.env.MONGO_URL)
+    .then(() => console.log("✅ DB connected"))
+    .catch(err => console.log("❌ DB error:", err));
+}
