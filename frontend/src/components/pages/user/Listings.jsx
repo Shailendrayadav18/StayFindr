@@ -13,7 +13,7 @@ export default function MyListings() {
         if (!confirmDelete) return;
 
         try {
-            const res = await fetch(`${import.meta.env.VITE_API_URL}/listing/${id}`, {
+            const res = await fetch(`/api/listing/${id}`, {
                 method: "DELETE",
                 credentials: "include",
             });
@@ -33,7 +33,7 @@ export default function MyListings() {
 
     const fetchListings = async () => {
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/listing/userListings`, {
+            const response = await fetch("/api/listing/userListings", {
                 credentials: "include",
             });
 

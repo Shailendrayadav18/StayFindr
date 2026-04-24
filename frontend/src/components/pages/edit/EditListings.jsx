@@ -70,7 +70,7 @@ export default function EditListing({ id, onSuccess, onCancel }) {
                 bodyData.image = imageData;
             }
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/listing/${id}`, {
+            const response = await fetch(`/api/listing/${id}`, {
                 method: "PUT",
                 credentials: 'include',
                 headers: {
@@ -98,7 +98,7 @@ export default function EditListing({ id, onSuccess, onCancel }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/listing/${id}/edit`, {
+                const response = await fetch(`/api/listing/${id}/edit`, {
                     credentials: "include"
                 });
 

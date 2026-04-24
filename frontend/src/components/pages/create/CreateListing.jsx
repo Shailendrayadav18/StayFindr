@@ -53,7 +53,7 @@ export default function NewListing({ onSuccess, onCancel }) {
         setLoading(true);
         try {
             const imageData = await uploadImageToCloudinary(data.image[0]);
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/listing`, {
+            const response = await fetch("/api/listing", {
                 method: "POST",
                 credentials: "include",
                 headers: {
