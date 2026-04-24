@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
         const checkAuth = async () => {
 
             try {
-                const res = await fetch(`${import.meta.env.VITE_API_URL}/verifyUser`, {
+                const res = await fetch("/api/verifyUser", {
                     credentials: "include"
                 });
 
