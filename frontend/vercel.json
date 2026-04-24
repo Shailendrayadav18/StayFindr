@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "http://stayfindr-env.eba-sa9b2mrb.ap-south-1.elasticbeanstalk.com/$1"
+    }
+  ]
+}

@@ -14,7 +14,7 @@ export default function Show() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/listing${city ? `?city=${city}` : ""}`, {
+                const response = await fetch(`/api/listing${city ? `?city=${city}` : ""}`, {
                     credentials: 'include'
                 });
 

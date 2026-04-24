@@ -1,104 +1,106 @@
-if (process.env.NODE_ENV !== "production") {
-  require("dotenv").config();
+if(process.env.NODE_ENV != "production"){
+    require("dotenv").config();
 }
 
-console.log("App starting...");
-
-// ---------------- SAFE ENV LOGS ----------------
-console.log("SESSION_SECRET:", process.env.SESSION_SECRET || "Not Set");
-console.log("FRONTEND_URL:", process.env.FRONTEND_URL || "Not Set");
-
-// ---------------- IMPORTS ----------------
 const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
+const path = require("path");
+const methodoverride = require("method-override");
+const ExpressError = require("./utils/ExpressError.js");
+const session = require("express-session");
+const flash = require("connect-flash");
+const passport= require("passport");
+const LocalStrategy = require("passport-local");
+const User=require("./models/user.js");
 const cors = require("cors");
 
-const app = express();
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
 
-// ---------------- HEALTH ROUTES ----------------
-app.get("/", (req, res) => {
-  res.status(200).send("OK");
-});
+app.use(express.urlencoded({extended:true}));
+app.use(methodoverride("_method"));
+app.use(express.static(path.join(__dirname, "/public")));
 
-app.get("/health", (req, res) => {
-  res.status(200).send("healthy");
-});
-
-// ---------------- LOG REQUESTS ----------------
-app.use((req, res, next) => {
-  console.log("Incoming:", req.method, req.url);
-  next();
-});
-
-// ---------------- CORS ----------------
 const allowedOrigins = [
   "http://localhost:5173",
-  process.env.FRONTEND_URL,
+  process.env.FRONTEND_URL
 ].filter(Boolean);
 
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      console.log("Blocked by CORS:", origin);
-      callback(null, true); // allow anyway to avoid crash
-    }
-  },
-  credentials: true,
+  origin: allowedOrigins,
+  credentials:true
 }));
 
-// ---------------- MIDDLEWARE ----------------
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
-// ---------------- ROUTES ----------------
-try {
-  const listingRouter = require("./routes/listing.js");
-  const reviewRouter = require("./routes/review.js");
-  const userRouter = require("./routes/user.js");
+const dbUrl = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/wanderlust";
 
-  app.use("/listing", listingRouter);
-  app.use("/listing/:id/reviews", reviewRouter);
-  app.use("/user", userRouter);
-  app.use("/reviews", reviewRouter);
-} catch (err) {
-  console.error("Route load error:", err);
-}
-
-// ---------------- ERROR HANDLER ----------------
-app.use((err, req, res, next) => {
-  console.error("ERROR:", err);
-  res.status(500).json({
-    error: true,
-    message: err.message || "Internal Server Error",
-  });
+main().then(()=>{
+    console.log("DB is connected");
+}).catch((err)=>{
+    console.log(err);
 });
 
-// ---------------- SERVER START ----------------
-console.log("PORT FROM ENV:", process.env.PORT);
-const PORT = process.env.PORT;
-if (!PORT) {
-  console.error("❌ PORT not provided by Railway");
-  process.exit(1);
-}
-app.listen(PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${PORT}`);
+async function main() {
+    await mongoose.connect(dbUrl);
+}; 
+
+const PORT = process.env.PORT || 8080;
+
+const sessionOptions = {
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        expires: Date.now() + 7*24*60*60*1000,
+        maxAge: 7*24*60*60*1000,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "none",
+    },
+};
+
+app.use(session(sessionOptions));
+app.use(flash());
+
+app.use((req, res, next) => {
+    res.locals.returnTo = req.session.returnTo;
+    next();
 });
 
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(User.authenticate()));
 
-process.on("uncaughtException", (err) => {
-  console.error("UNCAUGHT EXCEPTION:", err);
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+app.use((req, res, next)=>{
+    res.locals.success = req.flash("success");
+    res.locals.error = req.flash("error");
+    res.locals.currUser = req.user;
+    next();
 });
 
-process.on("unhandledRejection", (err) => {
-  console.error("UNHANDLED REJECTION:", err);
+app.use("/listing", listingRouter);
+app.use("/listing/:id/reviews", reviewRouter);   
+app.use("/", userRouter);
+app.use("/reviews", reviewRouter);
+
+app.use((req, res, next) => {
+    next(new ExpressError(404, "Page not found"));
 });
-// ---------------- DB CONNECT ----------------
-if (!process.env.MONGO_URL) {
-  console.error("❌ MONGO_URL not set in environment variables");
-} else {
-  mongoose.connect(process.env.MONGO_URL)
-    .then(() => console.log("✅ DB connected"))
-    .catch(err => console.log("❌ DB error:", err));
-}
+
+app.use((err, req, res, next)=>{
+    let {statusCode=500, message="Some error occured"} = err;
+    res.status(statusCode).json({
+        error:true,
+        message:message,
+    });
+});
+
+app.listen(PORT, "0.0.0.0", ()=>{
+    console.log(`server is listening on port ${PORT}`); 
+});
